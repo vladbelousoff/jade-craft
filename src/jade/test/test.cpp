@@ -1,4 +1,4 @@
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_all.hpp>
 
 #include <jade/threads/task_queue.hpp>
 #include <jade/utils/string_manager.hpp>
