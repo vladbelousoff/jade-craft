@@ -18,14 +18,14 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 include(FetchContent)
 
 FetchContent_Declare(
-        glfw
-        GIT_REPOSITORY https://github.com/glfw/glfw.git
-        GIT_TAG 3.4
+        spdlog
+        GIT_REPOSITORY https://github.com/gabime/spdlog.git
+        GIT_TAG v1.15.0
         GIT_SHALLOW TRUE
 )
-FetchContent_MakeAvailable(glfw)
+FetchContent_MakeAvailable(spdlog)
 
-target_link_libraries(${PROJECT_NAME} glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
 
 if (JADE_ENABLE_LIBASSERT)
     FetchContent_Declare(
@@ -36,8 +36,8 @@ if (JADE_ENABLE_LIBASSERT)
     )
     FetchContent_MakeAvailable(libassert)
 
-    target_link_libraries(${PROJECT_NAME} libassert::assert)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE JADE_ENABLE_LIBASSERT=1)
+    target_link_libraries(${PROJECT_NAME} PUBLIC libassert::assert)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_ENABLE_LIBASSERT=1)
 endif ()
 
 if (JADE_ENABLE_TESTS)

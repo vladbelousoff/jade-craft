@@ -9,6 +9,6 @@
 #ifdef JADE_ENABLE_LIBASSERT
 #define JADE_ASSERT(...) ASSERT(__VA_ARGS__)
 #else
-#define JADE_ASSERT(...) assert(__VA_ARGS__)
+#define JADE_ASSERT(X, ...) assert(X)
 #endif
 

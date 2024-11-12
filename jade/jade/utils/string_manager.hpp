@@ -17,22 +17,25 @@ namespace jade {
       friend struct std::hash<StringId>;
       friend struct StringManager;
 
-      friend bool operator==(const StringId& lhs, const StringId& rhs);
-
     public:
       explicit StringId();
       explicit StringId(StringView string);
 
       auto data() const -> StringView;
 
+      auto operator==(const StringId& rhs) const -> bool
+      {
+         return id == rhs.id;
+      }
+
+      auto operator!=(const StringId& rhs) const -> bool
+      {
+         return id != rhs.id;
+      }
+
     private:
       std::size_t id;
    };
-
-   bool operator==(const StringId& lhs, const StringId& rhs)
-   {
-      return lhs.id == rhs.id;
-   }
 
    struct StringManager
    {

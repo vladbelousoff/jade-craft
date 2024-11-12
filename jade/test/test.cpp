@@ -3,7 +3,14 @@
 #include <jade/threads/task_queue.hpp>
 #include <jade/utils/string_manager.hpp>
 
+#include <functional>
 #include <vector>
+
+TEST_CASE("Empty Function", "[Function]")
+{
+   std::function<void()> f;
+   REQUIRE(!f);
+}
 
 TEST_CASE("TaskQueue Works in General", "[TaskQueue]")
 {
@@ -26,7 +33,7 @@ TEST_CASE("TaskQueue Works in General", "[TaskQueue]")
    }
 }
 
-TEST_CASE("TaskQueue is thread-safe", "[TaskQueue][threaded]")
+TEST_CASE("TaskQueue is Thread-Safe", "[TaskQueue][threaded]")
 {
    jade::TaskQueue queue;
    std::atomic<int> counter = 0;
