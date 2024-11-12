@@ -12,7 +12,7 @@ namespace wow {
    class MPQFileManager
    {
     public:
-      explicit MPQFileManager(const std::filesystem::path& data_root);
+      explicit MPQFileManager(const std::filesystem::path& root);
       virtual ~MPQFileManager();
 
     private:

@@ -29,7 +29,7 @@ main(int argc, char* argv[])
    if (argc > 1) {
       wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(argv[1]);
    } else {
-      wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(std::filesystem::current_path() / "Data");
+      wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(std::filesystem::current_path());
    }
 
    if (!glfwInit()) {

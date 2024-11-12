@@ -2,9 +2,10 @@
 
 #include <spdlog/spdlog.h>
 
-wow::MPQFileManager::MPQFileManager(const std::filesystem::path& data_root)
+wow::MPQFileManager::MPQFileManager(const std::filesystem::path& root)
   : thread(&MPQFileManager::loop, this)
 {
+   std::filesystem::path data_root = root / "Data";
    spdlog::info("Data root directory: {}", data_root.string().c_str());
 
    task_queue.add_task([this, data_root]() {
