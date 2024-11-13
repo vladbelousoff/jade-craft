@@ -27,14 +27,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(GlobLib)
 
 FetchContent_Declare(
-        glfw
-        GIT_REPOSITORY https://github.com/glfw/glfw.git
-        GIT_TAG 3.4
-        GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(glfw)
-
-FetchContent_Declare(
         gl3w
         GIT_REPOSITORY https://github.com/vladbelousoff/gl3w.git
         GIT_TAG 1.0.0
@@ -42,9 +34,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(gl3w)
 
+FetchContent_Declare(
+        SDL
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG release-2.30.9
+        GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(SDL)
+
 set(
         EXTERNAL_LIBRARIES
-        glfw
+        SDL2::SDL2-static
+        SDL2::SDL2main
         gl3w
         StormLib::storm
         Glob
