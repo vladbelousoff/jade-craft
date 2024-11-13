@@ -58,4 +58,5 @@ file(GLOB_RECURSE HEADER_FILES "wow/*.hpp")
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
 target_link_libraries(${PROJECT_NAME} JadeLib ${EXTERNAL_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE "wow")
 

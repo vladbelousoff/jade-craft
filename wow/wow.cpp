@@ -7,6 +7,7 @@
 #include <jade/utils/scope_exit.hpp>
 
 #include "filesystem/mpq_file_manager.hpp"
+#include "render/render_context/open_gl/render_context_open_gl.hpp"
 
 namespace wow {
 
@@ -43,12 +44,10 @@ main(int argc, char* argv[])
       SDL_Quit();
    });
 
-   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+   auto render_context = std::make_unique<wow::RenderContextOpenGL>();
 
-   SDL_Window* window = SDL_CreateWindow(
-       "WoW", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+   SDL_Window* window = SDL_CreateWindow("WoW", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
+       SDL_WINDOW_SHOWN | render_context->get_window_flags());
 
    if (!window) {
       spdlog::error("Failed to create an SDL2 window: {}", SDL_GetError());
@@ -60,24 +59,15 @@ main(int argc, char* argv[])
       SDL_DestroyWindow(window);
    });
 
-   SDL_GLContext gl_context = SDL_GL_CreateContext(window);
-   if (!gl_context) {
-      spdlog::error("Failed to create OpenGL context: {}", SDL_GetError());
+   if (!render_context->init(window)) {
+      spdlog::error("Failed to create render context: {}", SDL_GetError());
       return -1;
    }
 
-   jade::ScopeExit terminate_gl_context([&] {
-      spdlog::info("Destroying OpenGL context...");
-      SDL_GL_DeleteContext(gl_context);
+   jade::ScopeExit terminate_context([&] {
+      spdlog::info("Destroying render context...");
+      render_context->term(window);
    });
-
-   // Enable VSYNC
-   SDL_GL_SetSwapInterval(1);
-
-   if (gl3wInit()) {
-      spdlog::error("Failed to initialize gl3w!");
-      return -1;
-   }
 
    bool running = true;
    SDL_Event event;
@@ -91,14 +81,14 @@ main(int argc, char* argv[])
 
       int display_w;
       int display_h;
-      SDL_GL_GetDrawableSize(window, &display_w, &display_h);
+      render_context->get_drawable_size(window, display_w, display_h);
       glViewport(0, 0, display_w, display_h);
 
       // Render
       glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      SDL_GL_SwapWindow(window);
+      render_context->swap(window);
    }
 
    return 0;
