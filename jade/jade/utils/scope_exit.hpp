@@ -22,7 +22,7 @@ namespace jade {
       {
       }
 
-      ScopeExit()
+      ~ScopeExit()
       {
          function();
       }
