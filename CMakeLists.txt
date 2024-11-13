@@ -44,6 +44,7 @@ FetchContent_MakeAvailable(SDL)
 
 set(
         EXTERNAL_LIBRARIES
+        d3d9
         SDL2::SDL2-static
         SDL2::SDL2main
         gl3w

@@ -6,6 +6,7 @@
 #include <jade/utils/scope_exit.hpp>
 
 #include "filesystem/mpq_file_manager.hpp"
+#include "render/render_context/dx9/render_context_dx_9.hpp"
 #include "render/render_context/open_gl/render_context_open_gl.hpp"
 
 namespace wow {
@@ -43,7 +44,7 @@ main(int argc, char* argv[])
       SDL_Quit();
    });
 
-   auto render_context = std::make_unique<wow::RenderContextOpenGL>();
+   auto render_context = std::make_unique<wow::RenderContextDX9>();
 
    SDL_Window* window = SDL_CreateWindow("WoW", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
        SDL_WINDOW_SHOWN | render_context->get_window_flags());
@@ -80,10 +81,7 @@ main(int argc, char* argv[])
 
       auto [display_w, display_h] = render_context->get_drawable_size(window);
       render_context->viewport(0, 0, display_w, display_h);
-
-      render_context->clear_color(0.1f, 0.1f, 0.1f, 1.0f);
-      render_context->clear();
-
+      render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
       render_context->swap(window);
    }
 

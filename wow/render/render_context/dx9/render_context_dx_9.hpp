@@ -2,9 +2,11 @@
 
 #include "render/render_context/render_context.hpp"
 
+#include <d3d9.h>
+
 namespace wow {
 
-   class RenderContextOpenGL : IRenderContext
+   class RenderContextDX9 : IRenderContext
    {
     public:
       auto get_window_flags() -> SDL_WindowFlags override;
@@ -19,7 +21,8 @@ namespace wow {
       void clear(float r, float g, float b, float a) override;
 
     private:
-      SDL_GLContext gl_context = nullptr;
+      IDirect3D9* d3d = nullptr;
+      IDirect3DDevice9* d3d_device = nullptr;
    };
 
 } // namespace wow
