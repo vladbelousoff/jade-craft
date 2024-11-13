@@ -1,4 +1,3 @@
-#include <GL/gl3w.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_main.h>
 
@@ -79,14 +78,11 @@ main(int argc, char* argv[])
          }
       }
 
-      int display_w;
-      int display_h;
-      render_context->get_drawable_size(window, display_w, display_h);
-      glViewport(0, 0, display_w, display_h);
+      auto [display_w, display_h] = render_context->get_drawable_size(window);
+      render_context->viewport(0, 0, display_w, display_h);
 
-      // Render
-      glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+      render_context->clear_color(0.1f, 0.1f, 0.1f, 1.0f);
+      render_context->clear();
 
       render_context->swap(window);
    }

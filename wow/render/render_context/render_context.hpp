@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <utility>
 
 struct IRenderContext
 {
@@ -10,5 +11,9 @@ struct IRenderContext
    virtual void term(SDL_Window* window) = 0;
    virtual void swap(SDL_Window* window) = 0;
 
-   virtual void get_drawable_size(SDL_Window* window, int& w, int& h) = 0;
+   virtual auto get_drawable_size(SDL_Window* window) -> std::pair<int, int> = 0;
+   virtual void viewport(int x, int y, int w, int h) = 0;
+
+   virtual void clear() = 0;
+   virtual void clear_color(float r, float g, float b, float a) = 0;
 };

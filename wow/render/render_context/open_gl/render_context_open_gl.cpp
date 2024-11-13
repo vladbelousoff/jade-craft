@@ -40,9 +40,26 @@ namespace wow {
       SDL_GL_SwapWindow(window);
    }
 
-   void RenderContextOpenGL::get_drawable_size(SDL_Window* window, int& w, int& h)
+   auto RenderContextOpenGL::get_drawable_size(SDL_Window* window) -> std::pair<int, int>
    {
+      int w, h;
       SDL_GL_GetDrawableSize(window, &w, &h);
+      return { w, h };
+   }
+
+   void RenderContextOpenGL::viewport(int x, int y, int w, int h)
+   {
+      glViewport(x, y, w, h);
+   }
+
+   void RenderContextOpenGL::clear()
+   {
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   }
+
+   void RenderContextOpenGL::clear_color(float r, float g, float b, float a)
+   {
+      glClearColor(r, g, b, a);
    }
 
 } // namespace wow

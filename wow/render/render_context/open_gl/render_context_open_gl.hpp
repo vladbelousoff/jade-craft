@@ -13,7 +13,11 @@ namespace wow {
       void term(SDL_Window* window) override;
       void swap(SDL_Window* window) override;
 
-      void get_drawable_size(SDL_Window* window, int& w, int& h) override;
+      auto get_drawable_size(SDL_Window* window) -> std::pair<int, int> override;
+      void viewport(int x, int y, int w, int h) override;
+
+      void clear() override;
+      void clear_color(float r, float g, float b, float a) override;
 
     private:
       SDL_GLContext gl_context = nullptr;
