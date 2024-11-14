@@ -45,15 +45,18 @@ main(int argc, char* argv[])
       SDL_Quit();
    });
 
+   const char* window_title;
    if (argc > 2 && !strcmp(argv[2], "-opengl")) {
+      window_title = "WoW [OpenGL]";
       wow::global->render_context = std::make_unique<wow::RenderContextOpenGL>();
    } else {
+      window_title = "WoW [DX9]";
       wow::global->render_context = std::make_unique<wow::RenderContextDX9>();
    }
 
    IRenderContext* render_context = wow::global->render_context.get();
 
-   SDL_Window* window = SDL_CreateWindow("WoW", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
+   SDL_Window* window = SDL_CreateWindow(window_title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
        SDL_WINDOW_SHOWN | render_context->get_window_flags());
 
    if (!window) {
