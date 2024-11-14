@@ -13,7 +13,7 @@ namespace wow {
 
    struct GlobalStorage
    {
-      std::unique_ptr<wow::MPQFileManager> mpq_file_manager;
+      std::unique_ptr<MPQFileManager> mpq_file_manager;
       std::unique_ptr<IRenderContext> render_context;
    };
 
