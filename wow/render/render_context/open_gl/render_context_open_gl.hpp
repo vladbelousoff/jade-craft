@@ -4,7 +4,7 @@
 
 namespace wow {
 
-   class RenderContextOpenGL : IRenderContext
+   class RenderContextOpenGL : public IRenderContext
    {
     public:
       auto get_window_flags() -> SDL_WindowFlags override;

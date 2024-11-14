@@ -14,6 +14,7 @@ namespace wow {
    struct GlobalStorage
    {
       std::unique_ptr<wow::MPQFileManager> mpq_file_manager;
+      IRenderContext* render_context = nullptr;
    };
 
    GlobalStorage* global = nullptr;
@@ -44,7 +45,13 @@ main(int argc, char* argv[])
       SDL_Quit();
    });
 
-   auto render_context = std::make_unique<wow::RenderContextDX9>();
+   if (argc > 2 && !strcmp(argv[2], "-opengl")) {
+      wow::global->render_context = new wow::RenderContextOpenGL();
+   } else {
+      wow::global->render_context = new wow::RenderContextDX9();
+   }
+
+   IRenderContext* render_context = wow::global->render_context;
 
    SDL_Window* window = SDL_CreateWindow("WoW", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
        SDL_WINDOW_SHOWN | render_context->get_window_flags());
@@ -64,9 +71,10 @@ main(int argc, char* argv[])
       return -1;
    }
 
-   jade::ScopeExit terminate_context([&] {
-      spdlog::info("Destroying render context...");
+   jade::ScopeExit terminate_render_context([window, render_context] {
+      spdlog::info("Terminating render context...");
       render_context->term(window);
+      delete render_context;
    });
 
    bool running = true;

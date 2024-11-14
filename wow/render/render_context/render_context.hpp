@@ -5,6 +5,8 @@
 
 struct IRenderContext
 {
+   virtual ~IRenderContext() = default;
+
    virtual auto get_window_flags() -> SDL_WindowFlags = 0;
 
    virtual auto init(SDL_Window* window) -> bool = 0;

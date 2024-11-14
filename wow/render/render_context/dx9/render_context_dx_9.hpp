@@ -6,7 +6,7 @@
 
 namespace wow {
 
-   class RenderContextDX9 : IRenderContext
+   class RenderContextDX9 : public IRenderContext
    {
     public:
       auto get_window_flags() -> SDL_WindowFlags override;
