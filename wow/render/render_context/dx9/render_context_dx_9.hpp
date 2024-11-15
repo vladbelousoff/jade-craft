@@ -14,10 +14,7 @@ namespace wow {
       auto init(SDL_Window* window) -> bool override;
       void term(SDL_Window* window) override;
 
-      void init_scene() override;
-      void term_scene() override;
-
-      void swap(SDL_Window* window) override;
+      void draw_scene(SDL_Window* window, const std::function<void()>& callback) override;
 
       auto get_drawable_size(SDL_Window* window) -> std::pair<int, int> override;
       void viewport(int x, int y, int w, int h) override;

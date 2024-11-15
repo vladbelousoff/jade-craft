@@ -35,11 +35,6 @@ namespace wow {
       SDL_GL_DeleteContext(gl_context);
    }
 
-   void RenderContextOpenGL::swap(SDL_Window* window)
-   {
-      SDL_GL_SwapWindow(window);
-   }
-
    auto RenderContextOpenGL::get_drawable_size(SDL_Window* window) -> std::pair<int, int>
    {
       int w, h;
@@ -58,12 +53,10 @@ namespace wow {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    }
 
-   void RenderContextOpenGL::init_scene()
+   void RenderContextOpenGL::draw_scene(SDL_Window* window, const std::function<void()>& callback)
    {
-   }
-
-   void RenderContextOpenGL::term_scene()
-   {
+      callback();
+      SDL_GL_SwapWindow(window);
    }
 
 } // namespace wow

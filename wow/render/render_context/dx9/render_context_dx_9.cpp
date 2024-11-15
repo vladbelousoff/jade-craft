@@ -50,11 +50,6 @@ namespace wow {
       d3d = nullptr;
    }
 
-   void RenderContextDX9::swap(SDL_Window* window)
-   {
-      d3d_device->Present(nullptr, nullptr, nullptr, nullptr);
-   }
-
    auto RenderContextDX9::get_drawable_size(SDL_Window* window) -> std::pair<int, int>
    {
       int w, h;
@@ -79,14 +74,13 @@ namespace wow {
       d3d_device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_COLORVALUE(r, g, b, a), 1.0f, 0);
    }
 
-   void RenderContextDX9::init_scene()
+   void RenderContextDX9::draw_scene(SDL_Window* window, const std::function<void()>& callback)
    {
       d3d_device->BeginScene();
-   }
-
-   void RenderContextDX9::term_scene()
-   {
+      callback();
       d3d_device->EndScene();
+      
+      d3d_device->Present(nullptr, nullptr, nullptr, nullptr);
    }
 
 } // namespace wow

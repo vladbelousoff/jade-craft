@@ -92,11 +92,9 @@ main(int argc, char* argv[])
       auto [display_w, display_h] = render_context->get_drawable_size(window);
       render_context->viewport(0, 0, display_w, display_h);
 
-      render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
-      render_context->init_scene();
-      render_context->term_scene();
-
-      render_context->swap(window);
+      render_context->draw_scene(window, [&] {
+         render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
+      });
    }
 
    return 0;
