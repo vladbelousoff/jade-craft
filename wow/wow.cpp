@@ -15,7 +15,7 @@ namespace wow {
    struct GlobalStorage
    {
       std::unique_ptr<MPQFileManager> mpq_file_manager;
-      std::unique_ptr<IRenderContext> render_context;
+      std::unique_ptr<RenderContext> render_context;
    };
 
    GlobalStorage* global = nullptr;
@@ -49,41 +49,34 @@ main(int argc, char* argv[])
       SDL_Quit();
    });
 
-   const char* window_title;
 #ifdef WOW_ENABLE_D3D9
-   if (!args.is_set("-opengl") || args.is_set("-d3d9")) {
-      window_title = "WoW [D3D9]";
-      wow::global->render_context = std::make_unique<wow::RenderContextDX9>();
-   } else
+   const bool d3d9_active = !args.is_set("-opengl") || args.is_set("-d3d9");
+#else
+   constexpr bool d3d9_active = false;
 #endif
-   {
-      window_title = "WoW [OpenGL]";
-      wow::global->render_context = std::make_unique<wow::RenderContextOpenGL>();
-   }
 
-   IRenderContext* render_context = wow::global->render_context.get();
-
-   SDL_Window* window = SDL_CreateWindow(window_title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720,
-       SDL_WINDOW_SHOWN | render_context->get_window_flags());
-
+   SDL_Window* window = SDL_CreateWindow(d3d9_active ? "WoW [D3D9]" : "WoW [OpenGL]", SDL_WINDOWPOS_CENTERED,
+       SDL_WINDOWPOS_CENTERED, 1280, 720, d3d9_active ? SDL_WINDOW_SHOWN : SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
    if (!window) {
       spdlog::error("Failed to create an SDL2 window: {}", SDL_GetError());
       return -1;
    }
 
+   auto get_render_context = [&]() -> std::unique_ptr<RenderContext> {
+#ifdef WOW_ENABLE_D3D9
+      if (d3d9_active) {
+         return std::make_unique<wow::RenderContextDX9>(window);
+      }
+#endif
+      return std::make_unique<wow::RenderContextOpenGL>(window);
+   };
+
+   wow::global->render_context = get_render_context();
+   RenderContext* render_context = wow::global->render_context.get();
+
    jade::ScopeExit terminate_window([window] {
       spdlog::info("Destroying window...");
       SDL_DestroyWindow(window);
-   });
-
-   if (!render_context->init(window)) {
-      spdlog::error("Failed to create render context: {}", SDL_GetError());
-      return -1;
-   }
-
-   jade::ScopeExit terminate_render_context([window, render_context] {
-      spdlog::info("Terminating render context...");
-      render_context->term(window);
    });
 
    bool running = true;
@@ -96,10 +89,10 @@ main(int argc, char* argv[])
          }
       }
 
-      auto [display_w, display_h] = render_context->get_drawable_size(window);
+      auto [display_w, display_h] = render_context->get_drawable_size();
       render_context->viewport(0, 0, display_w, display_h);
 
-      render_context->draw_scene(window, [&] {
+      render_context->draw_scene([&] {
          render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
       });
    }

@@ -6,24 +6,20 @@
 
 namespace wow {
 
-   auto RenderContextDX9::get_window_flags() -> SDL_WindowFlags
-   {
-      return static_cast<SDL_WindowFlags>(0); // No specific SDL flags needed for DX9
-   }
-
-   auto RenderContextDX9::init(SDL_Window* window) -> bool
+   RenderContextDX9::RenderContextDX9(SDL_Window* window)
+     : RenderContext(window)
    {
       d3d = Direct3DCreate9(D3D_SDK_VERSION);
       if (!d3d) {
-         return false;
+         return;
       }
 
       SDL_SysWMinfo wm_info;
       SDL_VERSION(&wm_info.version)
       SDL_GetWindowWMInfo(window, &wm_info);
-      HWND hwnd = wm_info.info.win.window;
+      auto* hwnd = wm_info.info.win.window;
 
-      auto [width, height] = get_drawable_size(window);
+      auto [width, height] = get_drawable_size();
 
       D3DPRESENT_PARAMETERS d3dpp = {};
       d3dpp.Windowed = TRUE;
@@ -37,22 +33,17 @@ namespace wow {
               D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hwnd, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, &d3d_device))) {
          d3d->Release();
          d3d = nullptr;
-         return false;
+         return;
       }
-
-      return true;
    }
 
-   void RenderContextDX9::term(SDL_Window* window)
+   RenderContextDX9::~RenderContextDX9()
    {
       d3d_device->Release();
-      d3d_device = nullptr;
-
       d3d->Release();
-      d3d = nullptr;
    }
 
-   auto RenderContextDX9::get_drawable_size(SDL_Window* window) -> std::pair<int, int>
+   auto RenderContextDX9::get_drawable_size() -> std::pair<int, int>
    {
       int w, h;
       SDL_GetWindowSize(window, &w, &h);
@@ -76,7 +67,7 @@ namespace wow {
       d3d_device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_COLORVALUE(r, g, b, a), 1.0f, 0);
    }
 
-   void RenderContextDX9::draw_scene(SDL_Window* window, const std::function<void()>& callback)
+   void RenderContextDX9::draw_scene(const std::function<void()>& callback)
    {
       d3d_device->BeginScene();
       callback();
