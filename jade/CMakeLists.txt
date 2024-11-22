@@ -37,7 +37,7 @@ if (JADE_ENABLE_LIBASSERT)
     FetchContent_MakeAvailable(libassert)
 
     target_link_libraries(${PROJECT_NAME} PUBLIC libassert::assert)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_ENABLE_LIBASSERT=1)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_ENABLE_LIBASSERT)
 endif ()
 
 if (JADE_ENABLE_TESTS)

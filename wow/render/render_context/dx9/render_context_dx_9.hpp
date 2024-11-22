@@ -1,12 +1,14 @@
 #pragma once
 
+#ifdef WOW_ENABLE_D3D9
+
 #include "render/render_context/render_context.hpp"
 
 #include <d3d9.h>
 
 namespace wow {
 
-   class RenderContextDX9 : public IRenderContext
+   class RenderContextDX9 final : public IRenderContext
    {
     public:
       auto get_window_flags() -> SDL_WindowFlags override;
@@ -27,3 +29,5 @@ namespace wow {
    };
 
 } // namespace wow
+
+#endif

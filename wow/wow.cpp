@@ -50,12 +50,15 @@ main(int argc, char* argv[])
    });
 
    const char* window_title;
-   if (args.is_set("-opengl")) {
-      window_title = "WoW [OpenGL]";
-      wow::global->render_context = std::make_unique<wow::RenderContextOpenGL>();
-   } else {
+#ifdef WOW_ENABLE_D3D9
+   if (!args.is_set("-opengl") || args.is_set("-d3d9")) {
       window_title = "WoW [DX9]";
       wow::global->render_context = std::make_unique<wow::RenderContextDX9>();
+   } else
+#endif
+   {
+      window_title = "WoW [OpenGL]";
+      wow::global->render_context = std::make_unique<wow::RenderContextOpenGL>();
    }
 
    IRenderContext* render_context = wow::global->render_context.get();

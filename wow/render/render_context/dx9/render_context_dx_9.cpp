@@ -1,5 +1,7 @@
 #include "render_context_dx_9.hpp"
 
+#ifdef WOW_ENABLE_D3D9
+
 #include <SDL_syswm.h>
 
 namespace wow {
@@ -79,8 +81,10 @@ namespace wow {
       d3d_device->BeginScene();
       callback();
       d3d_device->EndScene();
-      
+
       d3d_device->Present(nullptr, nullptr, nullptr, nullptr);
    }
 
 } // namespace wow
+
+#endif
