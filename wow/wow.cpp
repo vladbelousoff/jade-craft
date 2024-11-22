@@ -33,8 +33,8 @@ main(int argc, char* argv[])
       delete wow::global;
    });
 
-   if (args.is_set("-root")) {
-      wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(args.get_value("-root"));
+   if (constexpr auto root = "-root"; args.is_set(root)) {
+      wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(args.get_value(root));
    } else {
       wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(std::filesystem::current_path());
    }
