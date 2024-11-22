@@ -52,7 +52,7 @@ main(int argc, char* argv[])
    const char* window_title;
 #ifdef WOW_ENABLE_D3D9
    if (!args.is_set("-opengl") || args.is_set("-d3d9")) {
-      window_title = "WoW [DX9]";
+      window_title = "WoW [D3D9]";
       wow::global->render_context = std::make_unique<wow::RenderContextDX9>();
    } else
 #endif
