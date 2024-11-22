@@ -21,7 +21,7 @@ namespace wow {
       }
 
       for (const auto& path : glob::glob(full_patterns)) {
-         spdlog::info("Found: {}", path.filename().string());
+         spdlog::info("Found '{}'", path.filename().string());
 
          if (archive.is_valid()) {
             if (!archive.patch(path)) {
