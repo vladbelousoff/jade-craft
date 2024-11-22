@@ -14,7 +14,6 @@ namespace wow {
       explicit MPQArchive() = default;
       explicit MPQArchive(const std::filesystem::path& path);
 
-    public:
       auto is_valid() const -> bool
       {
          return handle != HANDLE{};
@@ -25,7 +24,7 @@ namespace wow {
          return handle;
       }
 
-      auto patch(const std::filesystem::path& path, jade::StringView prefix = "") -> bool;
+      auto patch(const std::filesystem::path& path, jade::StringView prefix = "") const -> bool;
 
     private:
       HANDLE handle = {};

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <jade/threads/task_queue.hpp>
-#include <jade/utils/string_manager.hpp>
 
 #include <filesystem>
 #include <thread>
@@ -10,11 +9,11 @@
 
 namespace wow {
 
-   class MPQFileManager
+   class MPQFileManager final
    {
     public:
       explicit MPQFileManager(const std::filesystem::path& root);
-      virtual ~MPQFileManager();
+      ~MPQFileManager();
 
     private:
       jade::TaskQueue task_queue;

@@ -11,7 +11,7 @@ namespace wow {
       }
    }
 
-   auto MPQArchive::patch(const std::filesystem::path& path, jade::StringView prefix) -> bool
+   auto MPQArchive::patch(const std::filesystem::path& path, jade::StringView prefix) const -> bool
    {
       return SFileOpenPatchArchive(handle, path.string().c_str(), prefix.data(), 0);
    }
