@@ -6,6 +6,7 @@
 #include <jade/utils/scope_exit.hpp>
 
 #include "filesystem/mpq_file_manager.hpp"
+#include "jade/args/args_processor.hpp"
 #include "render/render_context/dx9/render_context_dx_9.hpp"
 #include "render/render_context/open_gl/render_context_open_gl.hpp"
 
@@ -24,13 +25,16 @@ namespace wow {
 int
 main(int argc, char* argv[])
 {
+   auto& args = jade::ArgsProcessor::get_instance();
+   args.process_args(argc, argv);
+
    wow::global = new wow::GlobalStorage();
    jade::ScopeExit terminate_global([] {
       delete wow::global;
    });
 
-   if (argc > 1) {
-      wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(argv[1]);
+   if (args.is_set("-root")) {
+      wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(args.get_value("-root"));
    } else {
       wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(std::filesystem::current_path());
    }
@@ -46,7 +50,7 @@ main(int argc, char* argv[])
    });
 
    const char* window_title;
-   if (argc > 2 && !strcmp(argv[2], "-opengl")) {
+   if (args.is_set("-opengl")) {
       window_title = "WoW [OpenGL]";
       wow::global->render_context = std::make_unique<wow::RenderContextOpenGL>();
    } else {
