@@ -3,6 +3,7 @@
 #include "jade/utils/string_manager.hpp"
 
 #include <unordered_map>
+#include <vector>
 
 namespace jade {
 

@@ -4,6 +4,7 @@
 #include <jade/utils/string_manager.hpp>
 
 #include <filesystem>
+#include <thread>
 
 #include "mpq_chain.hpp"
 
