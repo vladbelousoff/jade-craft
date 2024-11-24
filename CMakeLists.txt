@@ -42,6 +42,14 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL)
 
+FetchContent_Declare(
+        LuaBridge
+        GIT_REPOSITORY https://github.com/vinniefalco/LuaBridge.git
+        GIT_TAG 2.8
+        GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(LuaBridge)
+
 set(
         EXTERNAL_LIBRARIES
         SDL2::SDL2-static
@@ -49,6 +57,7 @@ set(
         gl3w
         StormLib::storm
         Glob
+        LuaBridge
 )
 
 add_subdirectory(jade)
