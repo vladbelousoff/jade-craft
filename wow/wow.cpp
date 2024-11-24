@@ -18,7 +18,7 @@ namespace wow {
       std::unique_ptr<RenderContext> render_context;
    };
 
-   GlobalStorage* global = nullptr;
+   std::unique_ptr<GlobalStorage> global;
 
 } // namespace wow
 
@@ -28,9 +28,10 @@ main(int argc, char* argv[])
    auto& args = jade::ArgsProcessor::get_instance();
    args.process_args(argc, argv);
 
-   wow::global = new wow::GlobalStorage();
+   wow::global = std::make_unique<wow::GlobalStorage>();
    jade::ScopeExit terminate_global([] {
-      delete wow::global;
+      wow::global = nullptr;
+      spdlog::info("Global storage terminated");
    });
 
    if (constexpr auto root = "-root"; args.is_set(root)) {
