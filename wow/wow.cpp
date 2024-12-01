@@ -7,8 +7,8 @@
 
 #include "filesystem/mpq_file_manager.hpp"
 #include "jade/args/args_processor.hpp"
-#include "render/render_context/dx9/render_context_dx_9.hpp"
-#include "render/render_context/open_gl/render_context_open_gl.hpp"
+#include "render/render_context/dx9/render_context_dx9.hpp"
+#include "render/render_context/gl/render_context_open_gl.hpp"
 
 namespace wow {
 

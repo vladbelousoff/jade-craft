@@ -1,4 +1,4 @@
-#include "render_context_dx_9.hpp"
+#include "render_context_dx9.hpp"
 
 #ifdef WOW_ENABLE_D3D9
 
@@ -8,8 +8,8 @@ namespace wow {
 
    RenderContextDX9::RenderContextDX9(SDL_Window* window)
      : RenderContext(window)
+     , d3d(Direct3DCreate9(D3D_SDK_VERSION))
    {
-      d3d = Direct3DCreate9(D3D_SDK_VERSION);
       if (!d3d) {
          return;
       }
@@ -59,21 +59,27 @@ namespace wow {
       vp.Height = h;
       vp.MinZ = 0.0f;
       vp.MaxZ = 1.0f;
-      d3d_device->SetViewport(&vp);
+      (void)d3d_device->SetViewport(&vp);
    }
 
    void RenderContextDX9::clear(float r, float g, float b, float a)
    {
-      d3d_device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_COLORVALUE(r, g, b, a), 1.0f, 0);
+      (void)d3d_device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_COLORVALUE(r, g, b, a), 1.0f, 0);
    }
 
    void RenderContextDX9::draw_scene(const std::function<void()>& callback)
    {
-      d3d_device->BeginScene();
-      callback();
-      d3d_device->EndScene();
+      if (FAILED(d3d_device->BeginScene())) {
+         return;
+      }
 
-      d3d_device->Present(nullptr, nullptr, nullptr, nullptr);
+      callback();
+
+      if (FAILED(d3d_device->EndScene())) {
+         return;
+      }
+
+      (void)d3d_device->Present(nullptr, nullptr, nullptr, nullptr);
    }
 
 } // namespace wow
