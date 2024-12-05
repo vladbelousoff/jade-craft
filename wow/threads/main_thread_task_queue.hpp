@@ -4,9 +4,9 @@
 
 namespace wow {
 
-   struct MainThreadTaskQueue : public jade::TaskQueue
-   {
-      static MainThreadTaskQueue& get_instance();
-   };
+  struct MainThreadTaskQueue : public jade::TaskQueue
+  {
+    static MainThreadTaskQueue& get_instance();
+  };
 
 } // namespace wow

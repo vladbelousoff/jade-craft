@@ -10,37 +10,37 @@ std::size_t jade::StringManager::string_counter = 0;
 auto
 jade::StringManager::get_string_by_id(jade::StringId id) -> jade::StringView
 {
-   std::shared_lock<std::shared_mutex> lock(mutex);
-   auto it = id_to_string.find(id);
-   if (it != id_to_string.end()) {
-      return it->second;
-   }
+  std::shared_lock<std::shared_mutex> lock(mutex);
+  auto it = id_to_string.find(id);
+  if (it != id_to_string.end()) {
+    return it->second;
+  }
 
-   return "";
+  return "";
 }
 
 auto
 jade::StringManager::get_id_by_string(jade::StringView string) -> jade::StringId
 {
-   {
-      std::shared_lock<std::shared_mutex> lock(mutex);
-      auto it = string_to_id.find(string);
-      if (it != string_to_id.end()) {
-         return it->second;
-      }
-   }
+  {
+    std::shared_lock<std::shared_mutex> lock(mutex);
+    auto it = string_to_id.find(string);
+    if (it != string_to_id.end()) {
+      return it->second;
+    }
+  }
 
-   StringId id = StringId{};
+  StringId id = StringId{};
 
-   {
-      std::unique_lock<std::shared_mutex> lock(mutex);
-      JADE_ASSERT(string_counter < std::numeric_limits<std::size_t>::max());
-      id.id = string_counter++;
-      string_to_id.insert(std::make_pair(string, id));
-      id_to_string.insert(std::make_pair(id, string));
-   }
+  {
+    std::unique_lock<std::shared_mutex> lock(mutex);
+    JADE_ASSERT(string_counter < std::numeric_limits<std::size_t>::max());
+    id.id = string_counter++;
+    string_to_id.insert(std::make_pair(string, id));
+    id_to_string.insert(std::make_pair(id, string));
+  }
 
-   return id;
+  return id;
 }
 
 jade::StringId::StringId()
@@ -56,5 +56,5 @@ jade::StringId::StringId(jade::StringView string)
 auto
 jade::StringId::data() const -> jade::StringView
 {
-   return StringManager::get_string_by_id(*this);
+  return StringManager::get_string_by_id(*this);
 }

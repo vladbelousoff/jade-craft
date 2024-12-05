@@ -2,10 +2,10 @@
 
 namespace wow {
 
-   MainThreadTaskQueue& MainThreadTaskQueue::get_instance()
-   {
-      static MainThreadTaskQueue instance;
-      return instance;
-   }
+  MainThreadTaskQueue& MainThreadTaskQueue::get_instance()
+  {
+    static MainThreadTaskQueue instance;
+    return instance;
+  }
 
 } // namespace wow

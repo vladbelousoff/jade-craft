@@ -8,26 +8,26 @@
 
 namespace wow {
 
-   class MPQArchive
-   {
-    public:
-      explicit MPQArchive() = default;
-      explicit MPQArchive(const std::filesystem::path& path);
+  class MPQArchive
+  {
+  public:
+    explicit MPQArchive() = default;
+    explicit MPQArchive(const std::filesystem::path& path);
 
-      auto is_valid() const -> bool
-      {
-         return handle != HANDLE{};
-      }
+    auto is_valid() const -> bool
+    {
+      return handle != HANDLE{};
+    }
 
-      auto get_handle() const -> HANDLE
-      {
-         return handle;
-      }
+    auto get_handle() const -> HANDLE
+    {
+      return handle;
+    }
 
-      auto patch(const std::filesystem::path& path, jade::StringView prefix = "") const -> bool;
+    auto patch(const std::filesystem::path& path, jade::StringView prefix = "") const -> bool;
 
-    private:
-      HANDLE handle = {};
-   };
+  private:
+    HANDLE handle = {};
+  };
 
 } // namespace wow

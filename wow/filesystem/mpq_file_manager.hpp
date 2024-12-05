@@ -9,18 +9,18 @@
 
 namespace wow {
 
-   class MPQFileManager final
-   {
-    public:
-      explicit MPQFileManager(const std::filesystem::path& root);
-      ~MPQFileManager();
+  class MPQFileManager final
+  {
+  public:
+    explicit MPQFileManager(const std::filesystem::path& root);
+    ~MPQFileManager();
 
-    private:
-      jade::TaskQueue task_queue;
-      std::thread thread;
-      MPQChain chain{};
+  private:
+    jade::TaskQueue task_queue;
+    std::thread thread;
+    MPQChain chain{};
 
-      void loop();
-   };
+    void loop();
+  };
 
 } // namespace wow

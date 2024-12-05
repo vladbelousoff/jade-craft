@@ -4,19 +4,19 @@
 
 namespace wow {
 
-   class MPQChain
-   {
-    public:
-      explicit MPQChain() = default;
-      explicit MPQChain(const std::filesystem::path& data_root);
+  class MPQChain
+  {
+  public:
+    explicit MPQChain() = default;
+    explicit MPQChain(const std::filesystem::path& data_root);
 
-      auto get_archive() const -> MPQArchive
-      {
-         return archive;
-      }
+    auto get_archive() const -> MPQArchive
+    {
+      return archive;
+    }
 
-    private:
-      MPQArchive archive{};
-   };
+  private:
+    MPQArchive archive{};
+  };
 
 } // namespace wow

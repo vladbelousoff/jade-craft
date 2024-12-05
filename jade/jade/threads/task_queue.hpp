@@ -6,28 +6,28 @@
 
 namespace jade {
 
-   class TaskQueue
-   {
-      using Task = std::function<void()>;
+  class TaskQueue
+  {
+    using Task = std::function<void()>;
 
-    public:
-      ~TaskQueue()
-      {
-         interrupt();
-      }
+  public:
+    ~TaskQueue()
+    {
+      interrupt();
+    }
 
-      void add_task(Task&& task);
-      void perform_all_tasks();
-      void perform_tasks_until_interrupted();
-      void interrupt();
+    void add_task(Task&& task);
+    void perform_all_tasks();
+    void perform_tasks_until_interrupted();
+    void interrupt();
 
-    private:
-      auto pop_next_task() -> Task;
+  private:
+    auto pop_next_task() -> Task;
 
-      std::mutex mutex = {};
-      std::queue<Task> task_queue = {};
-      std::condition_variable cv = {};
-      bool interrupted = false;
-   };
+    std::mutex mutex = {};
+    std::queue<Task> task_queue = {};
+    std::condition_variable cv = {};
+    bool interrupted = false;
+  };
 
 } // namespace jade
