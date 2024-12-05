@@ -24,7 +24,7 @@ namespace jade {
     ArgsProcessor() = default;
 
     std::vector<StringView> args{};
-    std::pmr::unordered_map<StringView, int> args_map{};
+    std::unordered_map<StringView, int> args_map{};
   };
 
 } // namespace jade
