@@ -12,33 +12,30 @@
 
 namespace wow {
 
-  struct GlobalStorage
-  {
-    std::unique_ptr<MPQFileManager> mpq_file_manager;
-    std::unique_ptr<RenderContext> render_context;
-  };
-
-  std::unique_ptr<GlobalStorage> global;
+  MPQFileManager* GFileManager = nullptr;
+  RenderContext* GRenderContext = nullptr;
 
 } // namespace wow
 
 int
 main(int argc, char* argv[])
 {
+  using namespace wow;
+
   auto& args = jade::ArgsProcessor::get_instance();
   args.process_args(argc, argv);
 
-  wow::global = std::make_unique<wow::GlobalStorage>();
-  jade::ScopeExit terminate_global([] {
-    wow::global = nullptr;
-    spdlog::info("Global storage terminated");
-  });
-
   if (constexpr auto root = "-root"; args.is_set(root)) {
-    wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(args.get_value(root));
+    GFileManager = new MPQFileManager(args.get_value(root));
   } else {
-    wow::global->mpq_file_manager = std::make_unique<wow::MPQFileManager>(std::filesystem::current_path());
+    GFileManager = new MPQFileManager(std::filesystem::current_path());
   }
+
+  jade::ScopeExit terminate_file_manager([] {
+    spdlog::info("Terminating GFileManager...");
+    delete GFileManager;
+    GFileManager = nullptr;
+  });
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     spdlog::error("Failed to initialize SDL2: {}", SDL_GetError());
@@ -50,7 +47,7 @@ main(int argc, char* argv[])
     SDL_Quit();
   });
 
-#ifdef WOW_ENABLE_D3D9
+#ifdef WOW_D3D9_SUPPORT
   const bool d3d9_active = !args.is_set("-opengl") || args.is_set("-d3d9");
 #else
   constexpr bool d3d9_active = false;
@@ -63,17 +60,25 @@ main(int argc, char* argv[])
     return -1;
   }
 
-  auto get_render_context = [&]() -> std::unique_ptr<RenderContext> {
-#ifdef WOW_ENABLE_D3D9
+  // ReSharper disable CppDFAMemoryLeak
+
+  auto get_render_context = [&]() -> RenderContext* {
+#ifdef WOW_D3D9_SUPPORT
     if (d3d9_active) {
-      return std::make_unique<wow::RenderContextDX9>(window);
+      return new RenderContextDX9(window);
     }
 #endif
-    return std::make_unique<wow::RenderContextOpenGL>(window);
+    return new RenderContextOpenGL(window);
   };
 
-  wow::global->render_context = get_render_context();
-  RenderContext* render_context = wow::global->render_context.get();
+  GRenderContext = get_render_context();
+  jade::ScopeExit terminate_render_context([] {
+    spdlog::info("Terminating GRenderContext...");
+    delete GRenderContext;
+    GRenderContext = nullptr;
+  });
+
+  // ReSharper enable CppDFAMemoryLeak
 
   jade::ScopeExit terminate_window([window] {
     spdlog::info("Destroying window...");
@@ -90,11 +95,11 @@ main(int argc, char* argv[])
       }
     }
 
-    auto [display_w, display_h] = render_context->get_drawable_size();
-    render_context->viewport(0, 0, display_w, display_h);
+    auto [display_w, display_h] = GRenderContext->get_drawable_size();
+    GRenderContext->viewport(0, 0, display_w, display_h);
 
-    render_context->draw_scene([&] {
-      render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
+    GRenderContext->draw_scene([&] {
+      GRenderContext->clear(0.1f, 0.1f, 0.1f, 1.0f);
     });
   }
 

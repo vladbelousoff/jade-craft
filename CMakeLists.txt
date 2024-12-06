@@ -73,6 +73,6 @@ find_library(D3D9_LIBRARY d3d9)
 
 if (D3D9_LIBRARY)
     target_link_libraries(${PROJECT_NAME} ${D3D9_LIBRARY})
-    target_compile_definitions(${PROJECT_NAME} PUBLIC WOW_ENABLE_D3D9)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC WOW_D3D9_SUPPORT)
 endif ()
 

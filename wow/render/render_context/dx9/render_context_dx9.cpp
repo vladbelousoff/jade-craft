@@ -1,6 +1,6 @@
 #include "render_context_dx9.hpp"
 
-#ifdef WOW_ENABLE_D3D9
+#ifdef WOW_D3D9_SUPPORT
 
 #include <SDL_syswm.h>
 

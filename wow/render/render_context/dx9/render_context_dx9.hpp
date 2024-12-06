@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef WOW_ENABLE_D3D9
+#ifdef WOW_D3D9_SUPPORT
 
 #include "render/render_context/render_context.hpp"
 
