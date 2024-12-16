@@ -2,7 +2,7 @@
 
 #include <GL/gl3w.h>
 
-namespace wow {
+namespace jade {
 
   RenderContextOpenGL::RenderContextOpenGL(SDL_Window* window)
     : RenderContext(window)
@@ -53,4 +53,4 @@ namespace wow {
     SDL_GL_SwapWindow(window);
   }
 
-} // namespace wow
+} // namespace jade

@@ -1,12 +1,12 @@
 #pragma once
 
-#ifdef WOW_D3D9_SUPPORT
+#ifdef JADE_D3D9_SUPPORT
 
-#include "render/render_context/render_context.hpp"
+#include "jade/render/render_context/render_context.hpp"
 
 #include <d3d9.h>
 
-namespace wow {
+namespace jade {
 
   class RenderContextDX9 final : public RenderContext
   {
@@ -24,6 +24,6 @@ namespace wow {
     IDirect3DDevice9* d3d_device = nullptr;
   };
 
-} // namespace wow
+} // namespace jade
 
 #endif

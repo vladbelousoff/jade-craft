@@ -1,10 +1,10 @@
 #include "render_context_dx9.hpp"
 
-#ifdef WOW_D3D9_SUPPORT
+#ifdef JADE_D3D9_SUPPORT
 
 #include <SDL_syswm.h>
 
-namespace wow {
+namespace jade {
 
   RenderContextDX9::RenderContextDX9(SDL_Window* window)
     : RenderContext(window)
@@ -82,6 +82,6 @@ namespace wow {
     (void)d3d_device->Present(nullptr, nullptr, nullptr, nullptr);
   }
 
-} // namespace wow
+} // namespace jade
 
 #endif

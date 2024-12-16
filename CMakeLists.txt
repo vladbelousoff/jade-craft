@@ -27,22 +27,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(GlobLib)
 
 FetchContent_Declare(
-        gl3w
-        GIT_REPOSITORY https://github.com/vladbelousoff/gl3w.git
-        GIT_TAG 1.0.0
-        GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(gl3w)
-
-FetchContent_Declare(
-        SDL
-        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-        GIT_TAG release-2.30.9
-        GIT_SHALLOW TRUE
-)
-FetchContent_MakeAvailable(SDL)
-
-FetchContent_Declare(
         LuaBridge
         GIT_REPOSITORY https://github.com/vinniefalco/LuaBridge.git
         GIT_TAG 2.8
@@ -51,10 +35,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(LuaBridge)
 
 set(
-        EXTERNAL_LIBRARIES
-        SDL2::SDL2-static
-        SDL2::SDL2main
-        gl3w
+        WOW_EXTERNAL_LIBRARIES
         StormLib::storm
         Glob
         LuaBridge
@@ -66,13 +47,6 @@ file(GLOB_RECURSE SOURCE_FILES "wow/*.cpp")
 file(GLOB_RECURSE HEADER_FILES "wow/*.hpp")
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(${PROJECT_NAME} JadeLib ${EXTERNAL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE JadeLib ${WOW_EXTERNAL_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE "wow")
-
-find_library(D3D9_LIBRARY d3d9)
-
-if (D3D9_LIBRARY)
-    target_link_libraries(${PROJECT_NAME} ${D3D9_LIBRARY})
-    target_compile_definitions(${PROJECT_NAME} PUBLIC WOW_D3D9_SUPPORT)
-endif ()
 

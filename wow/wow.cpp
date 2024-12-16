@@ -3,17 +3,17 @@
 
 #include <spdlog/spdlog.h>
 
-#include <jade/utils/scope_exit.hpp>
-
 #include "filesystem/mpq_file_manager.hpp"
 #include "jade/args/args_processor.hpp"
-#include "render/render_context/dx9/render_context_dx9.hpp"
-#include "render/render_context/gl/render_context_open_gl.hpp"
+#include "jade/render/render_context/dx9/render_context_dx9.hpp"
+#include "jade/render/render_context/gl/render_context_open_gl.hpp"
+#include "jade/render/render_context/render_context.hpp"
+#include "jade/utils/scope_exit.hpp"
 
 namespace wow {
 
   MPQFileManager* GFileManager = nullptr;
-  RenderContext* GRenderContext = nullptr;
+  jade::RenderContext* GRenderContext = nullptr;
 
 } // namespace wow
 
@@ -47,7 +47,7 @@ main(int argc, char* argv[])
     SDL_Quit();
   });
 
-#ifdef WOW_D3D9_SUPPORT
+#ifdef JADE_D3D9_SUPPORT
   const bool d3d9_active = !args.is_set("-opengl") || args.is_set("-d3d9");
 #else
   constexpr bool d3d9_active = false;
@@ -62,13 +62,13 @@ main(int argc, char* argv[])
 
   // ReSharper disable CppDFAMemoryLeak
 
-  auto get_render_context = [&]() -> RenderContext* {
-#ifdef WOW_D3D9_SUPPORT
+  auto get_render_context = [&]() -> jade::RenderContext* {
+#ifdef JADE_D3D9_SUPPORT
     if (d3d9_active) {
-      return new RenderContextDX9(window);
+      return new jade::RenderContextDX9(window);
     }
 #endif
-    return new RenderContextOpenGL(window);
+    return new jade::RenderContextOpenGL(window);
   };
 
   GRenderContext = get_render_context();

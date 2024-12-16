@@ -18,6 +18,22 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 include(FetchContent)
 
 FetchContent_Declare(
+        SDL
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG release-2.30.9
+        GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(SDL)
+
+FetchContent_Declare(
+        gl3w
+        GIT_REPOSITORY https://github.com/vladbelousoff/gl3w.git
+        GIT_TAG 1.0.0
+        GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(gl3w)
+
+FetchContent_Declare(
         spdlog
         GIT_REPOSITORY https://github.com/gabime/spdlog.git
         GIT_TAG v1.15.0
@@ -25,7 +41,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(spdlog)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
+set(
+        EXTERNAL_LIBRARIES
+        SDL2::SDL2-static
+        SDL2::SDL2main
+        gl3w
+        spdlog
+)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC ${EXTERNAL_LIBRARIES})
 
 if (JADE_ENABLE_LIBASSERT)
     FetchContent_Declare(
@@ -55,4 +79,11 @@ if (JADE_ENABLE_TESTS)
             ${PROJECT_NAME}
             Catch2::Catch2WithMain
     )
+endif ()
+
+find_library(D3D9_LIBRARY d3d9)
+
+if (D3D9_LIBRARY)
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${D3D9_LIBRARY})
+    target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_D3D9_SUPPORT)
 endif ()

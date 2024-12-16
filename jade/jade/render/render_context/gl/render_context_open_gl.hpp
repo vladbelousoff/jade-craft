@@ -1,8 +1,8 @@
 #pragma once
 
-#include "render/render_context/render_context.hpp"
+#include "jade/render/render_context/render_context.hpp"
 
-namespace wow {
+namespace jade {
 
   class RenderContextOpenGL final : public RenderContext
   {
@@ -19,4 +19,4 @@ namespace wow {
     SDL_GLContext gl_context = nullptr;
   };
 
-} // namespace wow
+} // namespace jade
