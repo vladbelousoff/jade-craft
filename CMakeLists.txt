@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(JadeCraft)
+project(jade-craft)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -47,6 +47,6 @@ file(GLOB_RECURSE SOURCE_FILES "wow/*.cpp")
 file(GLOB_RECURSE HEADER_FILES "wow/*.hpp")
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(${PROJECT_NAME} PRIVATE JadeLib ${WOW_EXTERNAL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE jade-lib ${WOW_EXTERNAL_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE "wow")
 

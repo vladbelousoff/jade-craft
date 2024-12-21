@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.29)
-project(JadeLib)
+project(jade-lib)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -74,11 +74,23 @@ if (JADE_ENABLE_TESTS)
     FetchContent_MakeAvailable(Catch2)
     target_include_directories(Catch2 INTERFACE "${Catch2_SOURCE_DIR}/src")
 
-    add_executable(${PROJECT_NAME}Test test/test.cpp)
-    target_link_libraries(${PROJECT_NAME}Test
-            ${PROJECT_NAME}
-            Catch2::Catch2WithMain
-    )
+    # Find all test source files
+    file(GLOB TEST_SOURCES "test/*.cpp")
+
+    # Loop through each test source file and create an executable
+    foreach (TEST_FILE ${TEST_SOURCES})
+        # Get the filename without directory or extension
+        get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
+
+        # Create an executable for the test file
+        add_executable(${PROJECT_NAME}-test_${TEST_NAME} ${TEST_FILE})
+
+        # Link the executable to the project library and Catch2
+        target_link_libraries(${PROJECT_NAME}-test_${TEST_NAME}
+                ${PROJECT_NAME}
+                Catch2::Catch2WithMain
+        )
+    endforeach ()
 endif ()
 
 find_library(D3D9_LIBRARY d3d9)
