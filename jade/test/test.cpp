@@ -8,7 +8,7 @@
 
 TEST_CASE("Empty Function", "[Function]")
 {
-  std::function<void()> f;
+  const std::function<void()> f;
   REQUIRE(!f);
 }
 
@@ -43,7 +43,7 @@ TEST_CASE("TaskQueue is Thread-Safe", "[TaskQueue][threaded]")
   std::thread t1([&queue, &counter] {
     for (int i = 0; i < n; ++i) {
       queue.add_task([&counter] {
-        counter++;
+        ++counter;
       });
     }
   });
@@ -51,7 +51,7 @@ TEST_CASE("TaskQueue is Thread-Safe", "[TaskQueue][threaded]")
   std::thread t2([&queue, &counter] {
     for (int i = 0; i < n; ++i) {
       queue.add_task([&counter] {
-        counter++;
+        ++counter;
       });
     }
   });
