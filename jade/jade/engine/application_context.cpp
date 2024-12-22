@@ -67,14 +67,22 @@ namespace jade {
     bool running = true;
     SDL_Event event;
 
+    auto last_time = std::chrono::high_resolution_clock::now();
+    auto current_time = last_time;
+
     while (running) {
+      current_time = std::chrono::high_resolution_clock::now();
+      std::chrono::duration<float> elapsed_time = current_time - last_time;
+      const float delta_time = elapsed_time.count();
+      last_time = current_time;
+
       while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
           running = false;
         }
       }
 
-      application_context->on_update();
+      application_context->on_update(delta_time);
 
       if (!render_context) {
         // Headless mode

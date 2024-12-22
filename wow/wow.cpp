@@ -25,8 +25,9 @@ namespace wow {
     {
     }
 
-    void on_update() override
+    void on_update(float dt) override
     {
+      spdlog::info("FPS: {}", 1.f / dt);
     }
 
     void on_render(jade::RenderContext* render_context) override
