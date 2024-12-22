@@ -6,6 +6,12 @@
 
 namespace jade {
 
+  enum class RenderInterface
+  {
+    OpenGL,
+    Direct3D9,
+  };
+
   struct RenderContext
   {
     explicit RenderContext(SDL_Window* window)
