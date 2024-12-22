@@ -91,7 +91,10 @@ namespace jade {
 
       auto [display_w, display_h] = render_context->get_drawable_size();
       render_context->viewport(0, 0, display_w, display_h);
-      application_context->on_render(render_context);
+
+      render_context->draw_scene([application_context, render_context] {
+        application_context->on_render(render_context);
+      });
     }
 
     return 0;

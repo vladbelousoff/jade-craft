@@ -32,9 +32,7 @@ namespace wow {
 
     void on_render(jade::RenderContext* render_context) override
     {
-      render_context->draw_scene([render_context] {
-        render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
-      });
+      render_context->clear(0.1f, 0.1f, 0.1f, 1.0f);
     }
   };
 
