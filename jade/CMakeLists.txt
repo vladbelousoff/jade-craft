@@ -99,3 +99,10 @@ if (D3D9_LIBRARY)
     target_link_libraries(${PROJECT_NAME} PUBLIC ${D3D9_LIBRARY})
     target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_D3D9_SUPPORT)
 endif ()
+
+find_library(D3D11_LIBRARY d3d11)
+
+if (D3D11_LIBRARY)
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${D3D11_LIBRARY})
+    target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_D3D11_SUPPORT)
+endif ()

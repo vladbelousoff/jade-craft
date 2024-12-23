@@ -10,6 +10,7 @@ namespace jade {
   {
     OpenGL,
     Direct3D9,
+    Direct3D11,
   };
 
   class RenderContext

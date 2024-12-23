@@ -43,6 +43,14 @@ main(int argc, char* argv[])
 {
   using namespace wow;
 
+#ifdef JADE_D3D9_SUPPORT
+  spdlog::info("Enabled support for D3D9");
+#endif
+
+#ifdef JADE_D3D11_SUPPORT
+  spdlog::info("Enabled support for D3D11");
+#endif
+
   auto& args = jade::ArgsProcessor::get_instance();
   args.process_args(argc, argv);
 
@@ -60,8 +68,8 @@ main(int argc, char* argv[])
 
   // Default value based on what is supported
   auto render_interface =
-#ifdef JADE_D3D9_SUPPORT
-    jade::RenderInterface::Direct3D9
+#ifdef JADE_D3D11_SUPPORT
+    jade::RenderInterface::Direct3D11
 #else
     jade::RenderInterface::OpenGL
 #endif
@@ -79,6 +87,9 @@ main(int argc, char* argv[])
       break;
     case jade::RenderInterface::Direct3D9:
       render_context_name = "Direct3D9";
+      break;
+    case jade::RenderInterface::Direct3D11:
+      render_context_name = "Direct3D11";
       break;
   }
 

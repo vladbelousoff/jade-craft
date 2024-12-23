@@ -1,5 +1,6 @@
 #include "application-context.hpp"
 
+#include <jade/render/d3d11/render-context-d3d11.hpp>
 #include <jade/render/d3d9/render-context-d3d9.hpp>
 #include <jade/render/open-gl/render-context-open-gl.hpp>
 #include <jade/render/render-context.hpp>
@@ -53,6 +54,11 @@ namespace jade {
         render_context = new RenderContextD3D9(window);
 #endif
         break;
+#ifdef JADE_D3D11_SUPPORT
+      case RenderInterface::Direct3D11:
+        render_context = new RenderContextD3D11(window);
+        break;
+#endif
     }
 
     ScopeExit terminate_render_context([&] {
