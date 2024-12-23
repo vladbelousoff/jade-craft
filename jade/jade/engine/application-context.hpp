@@ -1,7 +1,7 @@
 #pragma once
 
-#include <jade/render/render_context/render_context.hpp>
-#include <jade/utils/string_manager.hpp>
+#include <jade/render/render-context.hpp>
+#include <jade/strings/string-manager.hpp>
 
 namespace jade {
 

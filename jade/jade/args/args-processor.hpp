@@ -1,6 +1,6 @@
 #pragma once
 
-#include "jade/utils/string_manager.hpp"
+#include <jade/strings/string-manager.hpp>
 
 #include <unordered_map>
 #include <vector>

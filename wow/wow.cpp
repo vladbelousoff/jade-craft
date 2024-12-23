@@ -1,8 +1,8 @@
 
-#include <filesystem/mpq_file_manager.hpp>
-#include <jade/args/args_processor.hpp>
-#include <jade/engine/application_context.hpp>
-#include <jade/utils/scope_exit.hpp>
+#include <filesystem/mpq-file-manager.hpp>
+#include <jade/args/args-processor.hpp>
+#include <jade/engine/application-context.hpp>
+#include <jade/utils/scope-exit.hpp>
 
 #include <spdlog/spdlog.h>
 

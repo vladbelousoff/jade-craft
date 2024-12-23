@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mpq_archive.hpp"
+#include "mpq-archive.hpp"
 
 namespace wow {
 

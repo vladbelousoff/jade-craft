@@ -1,6 +1,6 @@
-#include "string_manager.hpp"
+#include "string-manager.hpp"
 
-#include "assert.hpp"
+#include <jade/utils/assert.hpp>
 
 std::shared_mutex jade::StringManager::mutex;
 std::unordered_map<jade::StringId, jade::String> jade::StringManager::id_to_string;

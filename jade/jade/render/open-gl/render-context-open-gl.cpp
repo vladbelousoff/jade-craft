@@ -1,4 +1,4 @@
-#include "render_context_open_gl.hpp"
+#include "render-context-open-gl.hpp"
 
 #include <GL/gl3w.h>
 

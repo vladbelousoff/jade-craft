@@ -1,6 +1,6 @@
 #pragma once
 
-#include <jade/threads/task_queue.hpp>
+#include <jade/threads/task-queue.hpp>
 
 namespace wow {
 

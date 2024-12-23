@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <SDL_video.h>
 #include <functional>
 #include <utility>
 

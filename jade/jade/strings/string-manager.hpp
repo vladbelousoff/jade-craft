@@ -56,7 +56,7 @@ namespace jade {
 template<>
 struct std::hash<jade::StringId>
 {
-  std::size_t operator()(const jade::StringId& string_id) const
+  std::size_t operator()(const jade::StringId& string_id) const noexcept
   {
     return std::hash<std::size_t>{}(string_id.id);
   }

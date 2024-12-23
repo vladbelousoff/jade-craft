@@ -2,7 +2,7 @@
 
 #ifdef JADE_D3D9_SUPPORT
 
-#include <jade/render/render_context/render_context.hpp>
+#include <jade/render/render-context.hpp>
 
 #include <d3d9.h>
 

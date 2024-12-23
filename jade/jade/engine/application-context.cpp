@@ -1,11 +1,12 @@
-#include "application_context.hpp"
+#include "application-context.hpp"
 
-#include <jade/render/render_context/dx9/render_context_dx9.hpp>
-#include <jade/render/render_context/gl/render_context_open_gl.hpp>
-#include <jade/render/render_context/render_context.hpp>
-#include <jade/utils/scope_exit.hpp>
-#include <jade/utils/string_manager.hpp>
+#include <jade/render/d3d9/render-context-d3d9.hpp>
+#include <jade/render/open-gl/render-context-open-gl.hpp>
+#include <jade/render/render-context.hpp>
+#include <jade/strings/string-manager.hpp>
+#include <jade/utils/scope-exit.hpp>
 
+#include <SDL.h>
 #include <SDL_video.h>
 #include <spdlog/spdlog.h>
 

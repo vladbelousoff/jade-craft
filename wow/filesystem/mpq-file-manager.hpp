@@ -1,11 +1,11 @@
 #pragma once
 
-#include <jade/threads/task_queue.hpp>
+#include <jade/threads/task-queue.hpp>
 
 #include <filesystem>
 #include <thread>
 
-#include "mpq_chain.hpp"
+#include "mpq-chain.hpp"
 
 namespace wow {
 
