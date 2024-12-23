@@ -12,8 +12,9 @@ namespace jade {
     Direct3D9,
   };
 
-  struct RenderContext
+  class RenderContext
   {
+  public:
     explicit RenderContext(SDL_Window* window)
       : window(window)
     {
