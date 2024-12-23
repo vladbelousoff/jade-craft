@@ -6,7 +6,7 @@
 
 namespace jade {
 
-  RenderContextDX9::RenderContextDX9(SDL_Window* window)
+  RenderContextD3D9::RenderContextD3D9(SDL_Window* window)
     : RenderContext(window)
     , d3d(Direct3DCreate9(D3D_SDK_VERSION))
   {
@@ -37,20 +37,20 @@ namespace jade {
     }
   }
 
-  RenderContextDX9::~RenderContextDX9()
+  RenderContextD3D9::~RenderContextD3D9()
   {
     d3d_device->Release();
     d3d->Release();
   }
 
-  auto RenderContextDX9::get_drawable_size() -> std::pair<int, int>
+  auto RenderContextD3D9::get_drawable_size() -> std::pair<int, int>
   {
     int w, h;
     SDL_GetWindowSize(window, &w, &h);
     return { w, h };
   }
 
-  void RenderContextDX9::viewport(int x, int y, int w, int h)
+  void RenderContextD3D9::viewport(int x, int y, int w, int h)
   {
     D3DVIEWPORT9 vp;
     vp.X = x;
@@ -62,12 +62,12 @@ namespace jade {
     (void)d3d_device->SetViewport(&vp);
   }
 
-  void RenderContextDX9::clear(float r, float g, float b, float a)
+  void RenderContextD3D9::clear(float r, float g, float b, float a)
   {
     (void)d3d_device->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_COLORVALUE(r, g, b, a), 1.0f, 0);
   }
 
-  void RenderContextDX9::draw_scene(const std::function<void()>& callback)
+  void RenderContextD3D9::draw_scene(const std::function<void()>& callback)
   {
     if (FAILED(d3d_device->BeginScene())) {
       return;

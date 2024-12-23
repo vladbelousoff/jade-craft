@@ -8,11 +8,11 @@
 
 namespace jade {
 
-  class RenderContextDX9 final : public RenderContext
+  class RenderContextD3D9 final : public RenderContext
   {
   public:
-    explicit RenderContextDX9(SDL_Window* window);
-    ~RenderContextDX9() override;
+    explicit RenderContextD3D9(SDL_Window* window);
+    ~RenderContextD3D9() override;
 
     void draw_scene(const std::function<void()>& callback) override;
     auto get_drawable_size() -> std::pair<int, int> override;

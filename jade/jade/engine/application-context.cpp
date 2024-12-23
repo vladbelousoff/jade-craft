@@ -50,7 +50,7 @@ namespace jade {
         break;
       case RenderInterface::Direct3D9:
 #ifdef JADE_D3D9_SUPPORT
-        render_context = new RenderContextDX9(window);
+        render_context = new RenderContextD3D9(window);
 #endif
         break;
     }
