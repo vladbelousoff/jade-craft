@@ -84,5 +84,5 @@ main(int argc, char* argv[])
 
   GameContext game_context;
   const auto title = fmt::format("WoW [{}]", render_context_name);
-  return run_game(&game_context, render_interface, title);
+  return run_app(&game_context, render_interface, title);
 }

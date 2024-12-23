@@ -13,6 +13,6 @@ namespace jade {
     virtual void on_render(RenderContext* context) = 0;
   };
 
-  int run_game(IApplicationContext* application_context, RenderInterface render_interface, StringView title);
+  int run_app(IApplicationContext* application_context, RenderInterface render_interface, StringView title);
 
 } // namespace jade
