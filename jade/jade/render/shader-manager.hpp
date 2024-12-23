@@ -55,8 +55,11 @@ namespace jade {
   class ShaderManager
   {
   public:
-    auto create_shader(ShaderType type, const void* buffer) -> ShaderId;
-    void delete_shader(ShaderId shader_id);
+    virtual ~ShaderManager() = default;
+
+    virtual auto create_shader(ShaderType type, const char* buffer) -> ShaderId;
+    virtual void delete_shader(ShaderId shader_id);
+
     auto is_valid(ShaderId shader_id) const -> bool;
 
   private:
