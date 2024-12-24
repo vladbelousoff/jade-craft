@@ -1,5 +1,7 @@
 #pragma once
 
+#include "shader-manager.hpp"
+
 #include <SDL_video.h>
 #include <functional>
 #include <utility>
@@ -30,6 +32,7 @@ namespace jade {
 
   protected:
     SDL_Window* window = nullptr;
+    ShaderManager* shader_manager = nullptr;
   };
 
 } // namespace jade

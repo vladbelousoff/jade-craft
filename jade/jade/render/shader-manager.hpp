@@ -17,10 +17,9 @@ namespace jade {
     friend class ShaderManager;
 
   public:
-    ShaderId() = default;
-
-    explicit ShaderId(std::uint32_t id, std::uint32_t generation)
-      : unique_id(id, generation)
+    explicit ShaderId(ShaderType type, std::uint32_t id, std::uint32_t generation)
+      : type(type)
+      , unique_id(id, generation)
     {
     }
 
@@ -49,6 +48,7 @@ namespace jade {
       }
     };
 
+    ShaderType type;
     UniqueId unique_id;
   };
 

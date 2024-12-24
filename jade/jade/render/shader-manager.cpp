@@ -3,10 +3,10 @@
 #include <spdlog/spdlog.h>
 
 auto
-jade::ShaderManager::create_shader(ShaderType, const char*) -> ShaderId
+jade::ShaderManager::create_shader(ShaderType type, const char*) -> ShaderId
 {
   generations.push_back(0);
-  return ShaderId(next_id++, 0);
+  return ShaderId(type, next_id++, 0);
 }
 
 void
