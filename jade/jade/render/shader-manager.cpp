@@ -1,30 +1,32 @@
 #include "shader-manager.hpp"
 
-#include <spdlog/spdlog.h>
-
-auto
-jade::ShaderManager::create_shader(ShaderType type, const char*) -> ShaderId
-{
-  generations.push_back(0);
-  return ShaderId(type, next_id++, 0);
-}
-
-void
-jade::ShaderManager::delete_shader(ShaderId shader_id)
-{
-  if (is_valid(shader_id)) {
-    generations[shader_id.unique_id.id - 1]++;
-  } else {
-    spdlog::warn("Attempted to delete a shader with id {}, which is not valid", shader_id.unique_id.id);
-  }
-}
+#include <jade/utils/assert.hpp>
 
 auto
 jade::ShaderManager::is_valid(ShaderId shader_id) const -> bool
 {
-  if (shader_id.unique_id.id > 0 && shader_id.unique_id.id <= generations.size()) {
-    return generations[shader_id.unique_id.id - 1] == shader_id.unique_id.generation;
-  }
+  return shaders.contains(shader_id.id);
+}
 
-  return false;
+auto
+jade::ShaderManager::create_id(Shader* shader) -> ShaderId
+{
+  ShaderId::IdType id = next_index++;
+  shaders.insert({ id, shader });
+
+  ShaderId shader_id;
+  shader_id.id = id;
+
+  return shader_id;
+}
+
+void
+jade::ShaderManager::delete_id(ShaderId shader_id)
+{
+  JADE_ASSERT(shader_id.id != 0);
+  auto it = shaders.find(shader_id.id);
+  JADE_ASSERT(it != shaders.end());
+  JADE_ASSERT(it->second != nullptr);
+  delete it->second;
+  shaders.erase(it);
 }

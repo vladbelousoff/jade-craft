@@ -1,6 +1,7 @@
 #pragma once
 
-#include <vector>
+#include <objidl.h>
+#include <unordered_map>
 
 namespace jade {
 
@@ -17,39 +18,26 @@ namespace jade {
     friend class ShaderManager;
 
   public:
-    explicit ShaderId(ShaderType type, std::uint32_t id, std::uint32_t generation)
-      : type(type)
-      , unique_id(id, generation)
-    {
-    }
-
-    bool operator==(const ShaderId& other) const
-    {
-      return unique_id.id == other.unique_id.id && unique_id.generation == other.unique_id.generation;
-    }
-
-    bool operator!=(const ShaderId& other) const
-    {
-      return !(*this == other);
-    }
+    using IdType = std::size_t;
 
   private:
-    struct UniqueId
+    IdType id = 0;
+  };
+
+  class Shader
+  {
+    friend class ShaderManager;
+
+  public:
+    explicit Shader(ShaderType type)
+      : type(type)
     {
-      std::uint32_t id = 0;
-      std::uint32_t generation = 0;
+    }
 
-      UniqueId() = default;
+    virtual ~Shader() = default;
 
-      UniqueId(std::uint32_t id, std::uint32_t generation)
-        : id(id)
-        , generation(generation)
-      {
-      }
-    };
-
+  protected:
     ShaderType type;
-    UniqueId unique_id;
   };
 
   class ShaderManager
@@ -57,14 +45,22 @@ namespace jade {
   public:
     virtual ~ShaderManager() = default;
 
-    virtual auto create_shader(ShaderType type, const char* buffer) -> ShaderId;
-    virtual void delete_shader(ShaderId shader_id);
+    virtual auto create_shader(ShaderType type, const char* buffer) -> ShaderId = 0;
+    virtual void delete_shader(ShaderId shader_id) = 0;
 
     auto is_valid(ShaderId shader_id) const -> bool;
 
+  protected:
+    auto create_id(Shader* shader) -> ShaderId;
+    void delete_id(ShaderId shader_id);
+
   private:
-    std::vector<std::uint32_t> generations;
-    std::uint32_t next_id = 1;
+    // No smart pointers on purpose, because the pointers
+    // are always stored inside the system
+    std::unordered_map<ShaderId::IdType, Shader*> shaders;
+
+    // Shader counter
+    ShaderId::IdType next_index = 1;
   };
 
 } // namespace jade
