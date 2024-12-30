@@ -1,8 +1,10 @@
 #include "render-context-d3d11.hpp"
 
-#include "jade/utils/assert.hpp"
-
 #ifdef JADE_D3D11_SUPPORT
+
+#include "shader-manager-d3d11.hpp"
+
+#include <jade/utils/assert.hpp>
 
 #include <SDL_syswm.h>
 #include <d3d11.h>
@@ -52,19 +54,25 @@ jade::RenderContextD3D11::RenderContextD3D11(SDL_Window* window)
   JADE_ASSERT(!FAILED(hr));
 
   d3d_device_context->OMSetRenderTargets(1, &render_target_view, nullptr);
+  shader_manager = std::make_unique<ShaderManagerD3D11>(d3d_device);
 }
 
 jade::RenderContextD3D11::~RenderContextD3D11()
 {
+  shader_manager.reset();
+
   if (render_target_view) {
     render_target_view->Release();
   }
+
   if (swap_chain) {
     swap_chain->Release();
   }
+
   if (d3d_device_context) {
     d3d_device_context->Release();
   }
+
   if (d3d_device) {
     d3d_device->Release();
   }

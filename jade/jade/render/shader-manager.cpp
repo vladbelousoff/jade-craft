@@ -3,28 +3,28 @@
 #include <jade/utils/assert.hpp>
 
 auto
-jade::ShaderManager::is_valid(ShaderId shader_id) const -> bool
+jade::ShaderManager::is_valid(ShaderHandle shader_handle) const -> bool
 {
-  return shaders.contains(shader_id.id);
+  return shaders.contains(shader_handle.id);
 }
 
 auto
-jade::ShaderManager::create_id(Shader* shader) -> ShaderId
+jade::ShaderManager::create_handle(Shader* shader) -> ShaderHandle
 {
-  ShaderId::IdType id = next_index++;
+  ShaderHandle::IdType id = next_index++;
   shaders.insert({ id, shader });
 
-  ShaderId shader_id;
-  shader_id.id = id;
+  ShaderHandle shader_handle;
+  shader_handle.id = id;
 
-  return shader_id;
+  return shader_handle;
 }
 
 void
-jade::ShaderManager::delete_id(ShaderId shader_id)
+jade::ShaderManager::delete_handle(ShaderHandle shader_handle)
 {
-  JADE_ASSERT(shader_id.id != 0);
-  auto it = shaders.find(shader_id.id);
+  JADE_ASSERT(shader_handle.id != 0);
+  auto it = shaders.find(shader_handle.id);
   JADE_ASSERT(it != shaders.end());
   JADE_ASSERT(it->second != nullptr);
   delete it->second;

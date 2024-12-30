@@ -4,6 +4,7 @@
 
 #include <SDL_video.h>
 #include <functional>
+#include <memory>
 #include <utility>
 
 namespace jade {
@@ -30,9 +31,12 @@ namespace jade {
     virtual void viewport(int x, int y, int w, int h) = 0;
     virtual void clear(float r, float g, float b, float a) = 0;
 
+    auto create_shader(ShaderType type, const char* buffer) const -> ShaderHandle;
+    void delete_shader(ShaderHandle shader_handle) const;
+
   protected:
     SDL_Window* window = nullptr;
-    ShaderManager* shader_manager = nullptr;
+    std::unique_ptr<ShaderManager> shader_manager;
   };
 
 } // namespace jade

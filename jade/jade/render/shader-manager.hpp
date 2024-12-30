@@ -13,7 +13,7 @@ namespace jade {
 
   class ShaderManager;
 
-  class ShaderId
+  class ShaderHandle
   {
     friend class ShaderManager;
 
@@ -45,22 +45,22 @@ namespace jade {
   public:
     virtual ~ShaderManager() = default;
 
-    virtual auto create_shader(ShaderType type, const char* buffer) -> ShaderId = 0;
-    virtual void delete_shader(ShaderId shader_id) = 0;
+    virtual auto create_shader(ShaderType type, const char* buffer) -> ShaderHandle = 0;
+    virtual void delete_shader(ShaderHandle shader_handle) = 0;
 
-    auto is_valid(ShaderId shader_id) const -> bool;
+    auto is_valid(ShaderHandle shader_handle) const -> bool;
 
   protected:
-    auto create_id(Shader* shader) -> ShaderId;
-    void delete_id(ShaderId shader_id);
+    auto create_handle(Shader* shader) -> ShaderHandle;
+    void delete_handle(ShaderHandle shader_handle);
 
   private:
     // No smart pointers on purpose, because the pointers
     // are always stored inside the system
-    std::unordered_map<ShaderId::IdType, Shader*> shaders;
+    std::unordered_map<ShaderHandle::IdType, Shader*> shaders;
 
     // Shader counter
-    ShaderId::IdType next_index = 1;
+    ShaderHandle::IdType next_index = 1;
   };
 
 } // namespace jade

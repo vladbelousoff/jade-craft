@@ -96,7 +96,7 @@ endif ()
 find_library(D3D9_LIBRARY d3d9)
 
 if (D3D9_LIBRARY)
-    target_link_libraries(${PROJECT_NAME} PUBLIC ${D3D9_LIBRARY})
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${D3D9_LIBRARY} d3dcompiler)
     target_compile_definitions(${PROJECT_NAME} PUBLIC JADE_D3D9_SUPPORT)
 endif ()
 
