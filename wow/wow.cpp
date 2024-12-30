@@ -43,10 +43,6 @@ main(int argc, char* argv[])
 {
   using namespace wow;
 
-#ifdef JADE_D3D9_SUPPORT
-  spdlog::info("Enabled support for D3D9");
-#endif
-
 #ifdef JADE_D3D11_SUPPORT
   spdlog::info("Enabled support for D3D11");
 #endif
@@ -84,9 +80,6 @@ main(int argc, char* argv[])
   switch (render_interface) {
     case jade::RenderInterface::OpenGL:
       render_context_name = "OpenGL";
-      break;
-    case jade::RenderInterface::Direct3D9:
-      render_context_name = "Direct3D9";
       break;
     case jade::RenderInterface::Direct3D11:
       render_context_name = "Direct3D11";

@@ -12,7 +12,6 @@ namespace jade {
   enum class RenderInterface
   {
     OpenGL,
-    Direct3D9,
     Direct3D11,
   };
 

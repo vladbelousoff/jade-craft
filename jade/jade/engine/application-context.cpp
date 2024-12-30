@@ -1,10 +1,10 @@
 #include "application-context.hpp"
 
 #include <jade/render/d3d11/render-context-d3d11.hpp>
-#include <jade/render/d3d9/render-context-d3d9.hpp>
 #include <jade/render/open-gl/render-context-open-gl.hpp>
 #include <jade/render/render-context.hpp>
 #include <jade/strings/string-manager.hpp>
+#include <jade/utils/assert.hpp>
 #include <jade/utils/scope-exit.hpp>
 
 #include <SDL.h>
@@ -49,16 +49,13 @@ namespace jade {
       case RenderInterface::OpenGL:
         render_context = new RenderContextOpenGL(window);
         break;
-      case RenderInterface::Direct3D9:
-#ifdef JADE_D3D9_SUPPORT
-        render_context = new RenderContextD3D9(window);
-#endif
-        break;
 #ifdef JADE_D3D11_SUPPORT
       case RenderInterface::Direct3D11:
         render_context = new RenderContextD3D11(window);
         break;
 #endif
+      default:
+        JADE_ASSERT(false);
     }
 
     ScopeExit terminate_render_context([&] {
