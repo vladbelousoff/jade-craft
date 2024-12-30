@@ -1,6 +1,5 @@
 #pragma once
 
-#include <objidl.h>
 #include <unordered_map>
 
 namespace jade {
